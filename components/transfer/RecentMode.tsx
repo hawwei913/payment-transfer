@@ -8,19 +8,27 @@ import { FC, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 interface RecentModeProps {
-  onSelect: (data: { name: string; accountNumber: string; amount: number; note?: string }) => void;
+  onSelect: (data: {
+    name: string;
+    accountNumber: string;
+    amount: number;
+    note?: string;
+  }) => void;
 }
 
 export const RecentMode: FC<RecentModeProps> = ({ onSelect }) => {
-  const { data: recentTransactions = [], isLoading: isLoadingTransactions } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: getTransactions,
-  });
+  const { data: recentTransactions = [], isLoading: isLoadingTransactions } =
+    useQuery({
+      queryKey: ["transactions"],
+      queryFn: getTransactions,
+    });
   const { data: recipients = [], isLoading: isLoadingRecipients } = useQuery({
     queryKey: ["recipients"],
     queryFn: getRecipients,
   });
-  const [selectedTransactionId, setSelectedTransactionId] = useState<string | null>(null);
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    string | null
+  >(null);
 
   const handleSelect = (transaction: any, recipientName: string) => {
     setSelectedTransactionId(transaction.id);
@@ -41,7 +49,8 @@ export const RecentMode: FC<RecentModeProps> = ({ onSelect }) => {
       <Label className="text-lg font-semibold">Recent Transactions</Label>
       {recentTransactions.slice(-10).map((transaction) => {
         const recipientName =
-          recipients.find((r) => r.accountNumber === transaction.accountNumber)?.name || "Unknown";
+          recipients.find((r) => r.accountNumber === transaction.accountNumber)
+            ?.name || "Unknown";
 
         return (
           <TouchableOpacity
@@ -50,15 +59,21 @@ export const RecentMode: FC<RecentModeProps> = ({ onSelect }) => {
           >
             <Card
               className={`p-4 flex-row justify-between items-center ${
-                selectedTransactionId === transaction.id ? "bg-primary-foreground border-primary" : "border-gray-300"
+                selectedTransactionId === transaction.id
+                  ? "bg-primary-foreground border-primary"
+                  : "border-gray-300"
               }`}
             >
               <View className="gap-2">
                 <Text className="text-sm font-medium">{recipientName}</Text>
-                <Text className="text-sm text-gray-500">{transaction.accountNumber}</Text>
+                <Text className="text-sm text-gray-500">
+                  {transaction.accountNumber}
+                </Text>
               </View>
               <View className="gap-2 items-end">
-                <Text className="text-sm font-medium">${transaction.amount}</Text>
+                <Text className="text-sm font-medium">
+                  ${transaction.amount}
+                </Text>
                 <Text className="text-sm text-gray-500">
                   {new Date(transaction.date).toLocaleDateString()}
                 </Text>

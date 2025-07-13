@@ -1,5 +1,4 @@
 import * as LocalAuthentication from "expo-local-authentication";
-import { Platform } from "react-native";
 
 interface BiometricAuthResultSuccess {
   success: true;
@@ -49,11 +48,6 @@ export const checkBiometricSupport = async () => {
 export const authenticateWithBiometrics =
   async (): Promise<BiometricAuthResult> => {
     try {
-      if (Platform.OS === "web") {
-        // Web fallback - simulate biometric authentication
-        return { success: true, biometricType: "fingerprint" };
-      }
-
       const { isAvailable, supportedTypes } = await checkBiometricSupport();
 
       if (!isAvailable) {

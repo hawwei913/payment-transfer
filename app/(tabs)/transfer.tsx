@@ -7,7 +7,7 @@ import {
   TransferFormRef,
 } from "@/components/transfer/TransferForm";
 import { authenticateWithBiometrics } from "@/utils/biometric";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useRef } from "react";
 import { View } from "react-native";
@@ -15,11 +15,15 @@ import { toast } from "sonner-native";
 
 export default function TransferScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const formRef = useRef<TransferFormRef>(null);
 
   const { mutate } = useMutation({
     mutationFn: createTransaction,
-    onSuccess: (transaction) => {
+    onSuccess: async (transaction) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["transactions"],
+      });
       router.push({
         pathname: "/transaction/[id]",
         params: { id: transaction.id },

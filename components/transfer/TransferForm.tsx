@@ -28,22 +28,22 @@ const transferSchema = z.strictObject({
     .string("Amount is required")
     .check((ctx) => {
       const numberValue = Number(ctx.value);
-      
+
       if (isNaN(numberValue)) {
         ctx.issues.push({
           code: "invalid_type",
           message: "Amount must be a number",
           input: ctx.value,
-          expected: "number"
-        })
+          expected: "number",
+        });
       } else if (numberValue <= 0) {
         ctx.issues.push({
           code: "too_small",
           message: "Amount must be greater than 0",
           input: ctx.value,
           minimum: 1,
-          origin: "number"
-        })
+          origin: "number",
+        });
       }
     })
     .transform((value) => parseFloat(value)),
@@ -219,9 +219,13 @@ export const TransferForm: FC<TransferFormProps> = ({ onSubmit, ref }) => {
               <ManualMode control={control} errors={errors} />
             )}
 
-            {selectedMode === "recent" && <RecentMode onSelect={handleSelect} />}
+            {selectedMode === "recent" && (
+              <RecentMode onSelect={handleSelect} />
+            )}
 
-            {selectedMode === "contacts" && <ContactsMode onSelect={handleSelect} />}
+            {selectedMode === "contacts" && (
+              <ContactsMode onSelect={handleSelect} />
+            )}
           </ScrollView>
 
           {showNext && (

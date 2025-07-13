@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import TabBarBackground from "@/components/ui/TabBarBackground";
-import { HistoryIcon, HouseIcon, SendIcon } from "@/lib/icons";
+import { SendIcon } from "@/lib/icons";
 
 export default function TabLayout() {
   return (
@@ -23,24 +23,10 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <HouseIcon color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="transfer"
         options={{
           title: "Transfer",
           tabBarIcon: ({ color }) => <SendIcon color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="history"
-        options={{
-          title: "History",
-          tabBarIcon: ({ color }) => <HistoryIcon color={color} />,
         }}
       />
     </Tabs>

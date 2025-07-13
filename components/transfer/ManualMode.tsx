@@ -50,7 +50,9 @@ export const ManualMode: FC<ManualModeProps> = ({ control, errors }) => {
         )}
       />
       {errors.accountNumber && (
-        <Text className="text-red-500 text-sm">{errors.accountNumber.message}</Text>
+        <Text className="text-red-500 text-sm">
+          {errors.accountNumber.message}
+        </Text>
       )}
     </Card>
   );

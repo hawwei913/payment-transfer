@@ -16,7 +16,9 @@ export const ContactsMode: FC<ContactsModeProps> = ({ onSelect }) => {
     queryKey: ["contacts"],
     queryFn: loadContacts,
   });
-  const [selectedContactId, setSelectedContactId] = useState<string | null>(null);
+  const [selectedContactId, setSelectedContactId] = useState<string | null>(
+    null
+  );
 
   const handleSelect = (contact: any) => {
     setSelectedContactId(contact.id);
@@ -40,7 +42,9 @@ export const ContactsMode: FC<ContactsModeProps> = ({ onSelect }) => {
         >
           <Card
             className={`p-4 flex-row items-center gap-4 mb-2 ${
-              selectedContactId === contact.id ? "bg-primary-foreground border-primary" : "border-gray-300"
+              selectedContactId === contact.id
+                ? "bg-primary-foreground border-primary"
+                : "border-gray-300"
             }`}
           >
             <Text className="text-sm font-medium">{contact.name}</Text>
