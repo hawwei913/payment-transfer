@@ -11,10 +11,10 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Toaster } from "sonner-native";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
-
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
   colors: NAV_THEME.light,
@@ -55,16 +55,18 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="transaction/[id]"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <Toaster />
+        <GestureHandlerRootView>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="transaction/[id]"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <Toaster />
+        </GestureHandlerRootView>
       </QueryClientProvider>
     </ThemeProvider>
   );
