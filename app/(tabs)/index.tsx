@@ -1,12 +1,11 @@
+import ScreenHeader from "@/components/ScreenHeader";
 import ScreenView from "@/components/ScreenView";
-import { Text } from "@/components/ui/text";
+import React from "react";
 
 export default function HomeScreen() {
   return (
     <ScreenView>
-      <Text>
-        This is the Home screen.
-      </Text>
+      <ScreenHeader title="Home" />
     </ScreenView>
-  )
+  );
 }
