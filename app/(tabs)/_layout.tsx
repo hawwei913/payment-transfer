@@ -23,7 +23,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="transfer"
+        name="index"
         options={{
           title: "Transfer",
           tabBarIcon: ({ color }) => <SendIcon color={color} />,
