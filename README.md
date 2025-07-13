@@ -25,4 +25,6 @@ In the output, you'll find options to open the app in a
 
 ## Demo Video
 
-https://github.com/hawwei913/payment-transfer/raw/refs/heads/main/demo/demo.mp4
+https://github.com/user-attachments/assets/19d5fabf-fb5f-46ae-a3df-2be45f2b34bb
+
+
