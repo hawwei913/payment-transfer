@@ -1,11 +1,19 @@
 import * as LocalAuthentication from "expo-local-authentication";
 import { Platform } from "react-native";
 
-interface BiometricAuthResult {
-  success: boolean;
-  error?: string;
-  biometricType?: "fingerprint" | "face" | "iris";
+interface BiometricAuthResultSuccess {
+  success: true;
+  biometricType: "fingerprint" | "face" | "iris";
 }
+
+interface BiometricAuthResultFailure {
+  success: false;
+  error: string;
+}
+
+type BiometricAuthResult =
+  | BiometricAuthResultSuccess
+  | BiometricAuthResultFailure;
 
 export const checkBiometricSupport = async () => {
   try {
