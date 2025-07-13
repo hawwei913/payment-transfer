@@ -14,10 +14,16 @@ export const generateAccount = (): Account => {
 
 export const generateTransaction = (recipients: Recipient[]): Transaction => {
   const recipient = faker.helpers.arrayElement(recipients);
+  const date = new Date();
+
+  date.setDate(date.getDate() - 1);
 
   return {
     id: faker.string.uuid(),
-    date: faker.date.recent({ days: 30 }),
+    date: faker.date.recent({
+      days: 30,
+      refDate: date,
+    }),
     amount: parseFloat(faker.finance.amount()),
     type: faker.helpers.arrayElement(["sent", "received"]),
     recipient: recipient.id,
@@ -26,7 +32,10 @@ export const generateTransaction = (recipients: Recipient[]): Transaction => {
   };
 };
 
-export const generateRecipient = (name?: string, accountNumber?: string): Recipient => {
+export const generateRecipient = (
+  name?: string,
+  accountNumber?: string
+): Recipient => {
   return {
     id: faker.string.uuid(),
     name: name || faker.person.fullName(),

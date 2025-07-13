@@ -1,14 +1,8 @@
 import { faker } from "@faker-js/faker";
 import * as Contacts from "expo-contacts";
-import { Platform } from "react-native";
 
 export const requestContactsPermission = async () => {
   try {
-    if (Platform.OS === "web") {
-      // Web doesn't support contacts
-      return { granted: false, canAskAgain: false };
-    }
-
     const { status } = await Contacts.requestPermissionsAsync();
     return {
       granted: status === "granted",
@@ -22,11 +16,6 @@ export const requestContactsPermission = async () => {
 
 export const loadContacts = async () => {
   try {
-    if (Platform.OS === "web") {
-      // Return mock contacts for web
-      return [];
-    }
-
     const permission = await requestContactsPermission();
     if (!permission.granted) {
       return [];
