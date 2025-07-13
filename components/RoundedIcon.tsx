@@ -10,7 +10,7 @@ interface RoundedIconProps {
 export function RoundedIcon({
   children,
   className,
-  backgroundColor,
+  backgroundColor = "#cccccc",
 }: RoundedIconProps) {
   return (
     <View

@@ -26,10 +26,10 @@ export const generateTransaction = (recipients: Recipient[]): Transaction => {
   };
 };
 
-export const generateRecipient = (name?: string): Recipient => {
+export const generateRecipient = (name?: string, accountNumber?: string): Recipient => {
   return {
     id: faker.string.uuid(),
     name: name || faker.person.fullName(),
-    accountNumber: faker.finance.accountNumber(),
+    accountNumber: accountNumber || faker.finance.accountNumber(12),
   };
 };

@@ -13,7 +13,21 @@ const getAccount = async () => {
 const getTransactions = async () => {
   await delay(1000);
 
-  return transactions;
+  return transactions.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+};
+
+const getTransaction = async (id: string) => {
+  await delay(1000);
+
+  const transaction = transactions.find((t) => t.id === id);
+
+  if (!transaction) {
+    throw new Error("Transaction not found");
+  }
+
+  return transaction;
 };
 
 const createTransaction = async (
@@ -22,14 +36,12 @@ const createTransaction = async (
     "recipient" | "accountNumber" | "amount" | "note"
   >
 ) => {
-  await delay(1000);
-
   const recipientExists = recipients.find(
-    (recipient) => recipient.id === transaction.recipient
+    (recipient) => recipient.accountNumber === transaction.accountNumber
   );
 
   if (!recipientExists) {
-    await createRecipient(transaction.recipient);
+    await createRecipient(transaction.recipient, transaction.accountNumber);
   }
 
   const newTransaction: Transaction = {
@@ -67,10 +79,10 @@ const getRecipients = async () => {
   return recipients;
 };
 
-const createRecipient = async (name: string) => {
+const createRecipient = async (name: string, accountNumber: string) => {
   await delay(1000);
 
-  const newRecipient: Recipient = generateRecipient(name);
+  const newRecipient: Recipient = generateRecipient(name, accountNumber);
 
   recipients.push(newRecipient);
 
@@ -82,6 +94,7 @@ export {
   createTransaction,
   getAccount,
   getRecipients,
+  getTransaction,
   getTransactions,
   updateTransaction
 };
