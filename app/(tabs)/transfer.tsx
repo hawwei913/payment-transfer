@@ -1,37 +1,53 @@
-import { createTransaction, getAccount } from "@/api";
-import ScreenLoading from "@/components/ScreenLoading";
+import { createTransaction } from "@/api";
+import ScreenHeader from "@/components/ScreenHeader";
 import ScreenView from "@/components/ScreenView";
-import { TransferForm, TransferFormData } from "@/components/TransferForm";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  TransferForm,
+  TransferFormData,
+  TransferFormRef,
+} from "@/components/transfer/TransferForm";
+import { authenticateWithBiometrics } from "@/utils/biometric";
+import { useMutation } from "@tanstack/react-query";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useRef } from "react";
 import { View } from "react-native";
+import { toast } from "sonner-native";
 
 export default function TransferScreen() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["account"],
-    queryFn: getAccount,
-  });
+  const router = useRouter();
+  const formRef = useRef<TransferFormRef>(null);
 
   const { mutate } = useMutation({
-    mutationKey: ["createTransaction"],
     mutationFn: createTransaction,
+    onSuccess: (transaction) => {
+      router.push({
+        pathname: "/transaction/[id]",
+        params: { id: transaction.id },
+      });
+    },
   });
 
-  const handleSubmit = (data: TransferFormData) => {
-    console.log("Submitting transfer data:", data);
-    return;
+  const handleSubmit = async (data: TransferFormData) => {
+    const res = await authenticateWithBiometrics();
+
+    if (res.success) {
+      mutate(data);
+    } else {
+      toast.error(res.error);
+    }
   };
 
-  if (isLoading) {
-    return <ScreenLoading />;
-  }
+  useFocusEffect(
+    useCallback(() => {
+      formRef.current?.reset();
+    }, [])
+  );
 
   return (
     <ScreenView>
-      <View className="py-4 flex-1">
-        <TransferForm
-          currentBalance={data?.balance || 0}
-          onSubmit={handleSubmit}
-        />
+      <ScreenHeader title="Transfer" />
+      <View className="flex-1">
+        <TransferForm ref={formRef} onSubmit={handleSubmit} />
       </View>
     </ScreenView>
   );
